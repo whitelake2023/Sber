@@ -1,0 +1,16 @@
+import re
+
+def format_numbers(input_string):
+    def replace_match(match):
+        groups = match.groups()
+        special_part = groups[0].zfill(4)
+        normal_part = groups[1].zfill(5)
+        return f"{special_part}\\{normal_part}"
+
+    pattern = r"(\d{2,4})\\(\d{2,5})"
+    result = re.sub(pattern, replace_match, input_string)
+    return result
+
+input_string = "Адрес 5467\\456. Номер 405\\549"
+output_string = format_numbers(input_string)
+print(output_string)
