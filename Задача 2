@@ -1,0 +1,37 @@
+def add_atms(n, k, distances):
+    left = 1  # Минимальное возможное расстояние
+    right = max(distances)  # Максимальное возможное расстояние
+
+    while left < right:
+        mid = (left + right) // 2
+
+        total_added_atms = 0
+        for i in range(n - 1):
+            total_added_atms += (distances[i] - 1) // mid
+
+        if total_added_atms > k:
+            left = mid + 1
+        else:
+            right = mid
+
+    new_distances = []
+    for distance in distances:
+        new_distances.append(distance)
+        k -= (distance - 1) // left
+
+        while k > 0 and distance - 1 >= left:
+            new_distance = distance - (distance - 1) // left
+            new_distances.append(new_distance)
+            distance = new_distance
+            k -= 1
+
+    return new_distances
+
+# Ввод
+n, k = map(int, input().split())
+distances = [int(input()) for _ in range(n)]
+
+# Вызов функции и вывод результата
+new_distances = add_atms(n, k, distances)
+for distance in new_distances:
+    print(distance)
